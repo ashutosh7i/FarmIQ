@@ -45,7 +45,7 @@ export default function TabsDemo() {
       description: "Please wait while we predict the best crops for you",
     });
     try {
-      const response = await axios.post("http://20.2.64.57/predict", {
+      const response = await axios.post("https://farmiqapi.ashutosh7i.dev/predict", {
         reqdata,
       });
       const data = response.data;
@@ -87,7 +87,7 @@ export default function TabsDemo() {
       description: "Please wait while we predict the best crops for you",
     });
     try {
-      const response = await axios.post("http://20.2.64.57/predict", {
+      const response = await axios.post("https://farmiqapi.ashutosh7i.dev/predict", {
         reqdata,
       });
       const data = response.data;
