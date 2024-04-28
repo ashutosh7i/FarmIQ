@@ -45,12 +45,9 @@ export default function TabsDemo() {
       description: "Please wait while we predict the best crops for you",
     });
     try {
-      const response = await axios.post(
-        "https://68255af3-3b36-4b5d-a0c3-87a9b4141432-00-2zhktkobvgtir.pike.replit.dev/predict",
-        {
-          reqdata,
-        }
-      );
+      const response = await axios.post("http://20.2.64.57/predict", {
+        reqdata,
+      });
       const data = response.data;
       toast({
         title: "Response Ready ✅✨",
@@ -90,7 +87,7 @@ export default function TabsDemo() {
       description: "Please wait while we predict the best crops for you",
     });
     try {
-      const response = await axios.post("http://localhost:5000/advance", {
+      const response = await axios.post("http://20.2.64.57/predict", {
         reqdata,
       });
       const data = response.data;
