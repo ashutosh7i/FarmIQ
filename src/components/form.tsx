@@ -45,9 +45,12 @@ export default function TabsDemo() {
       description: "Please wait while we predict the best crops for you",
     });
     try {
-      const response = await axios.post("https://farmiqapi.ashutosh7i.dev/predict", {
-        reqdata,
-      });
+      const response = await axios.post(
+        "https://farmiqapi.ashutosh7i.dev/predict",
+        {
+          reqdata,
+        }
+      );
       const data = response.data;
       toast({
         title: "Response Ready ✅✨",
@@ -73,7 +76,7 @@ export default function TabsDemo() {
   const predictAdvance = async () => {
     lockTab();
     setPlaceholder(true);
-    const reqdata = [
+    const new_data = [
       temperature,
       humidity,
       ph,
@@ -87,9 +90,12 @@ export default function TabsDemo() {
       description: "Please wait while we predict the best crops for you",
     });
     try {
-      const response = await axios.post("https://farmiqapi.ashutosh7i.dev/predict", {
-        reqdata,
-      });
+      const response = await axios.post(
+        "https://farmiqapi.ashutosh7i.dev/advance",
+        {
+          new_data,
+        }
+      );
       const data = response.data;
       toast({
         title: "Response Ready ✅✨",
@@ -98,7 +104,7 @@ export default function TabsDemo() {
       setPlaceholder(false);
       setShowResults(true);
       unlockTab();
-      return data;
+      setResult(data.top_crops);
     } catch (error) {
       unlockTab();
       toast({
