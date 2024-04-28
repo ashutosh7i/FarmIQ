@@ -12,12 +12,15 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
+
+import Image from 'next/image'
 
 export default function TabsDemo() {
   const { toast } = useToast();
@@ -281,12 +284,41 @@ export default function TabsDemo() {
               <p className="text-sm text-muted-foreground">
                 Plant these 3 crops for maximum yield
               </p>
-
-              <div className="grid grid-cols-3 gap-4 items-center text-sm">
-                <div>{result[0]}</div>
-                <div>{result[1]}</div>
-                <div>{result[2]}</div>
-              </div>
+<div className="grid grid-cols-3 gap-4 items-center text-sm">
+  {result.length >= 1 && (
+    <div>
+      {result[0]}
+      <Image
+        src={`/crops/${result[0]}.jpg`}
+        width={500}
+        height={500}
+        alt={result[0]}
+      />
+    </div>
+  )}
+  {result.length >= 2 && (
+    <div>
+      {result[1]}
+      <Image
+        src={`/crops/${result[1]}.jpg`}
+        width={500}
+        height={500}
+        alt={result[1]}
+      />
+    </div>
+  )}
+  {result.length >= 3 && (
+    <div>
+      {result[2]}
+      <Image
+        src={`/crops/${result[2]}.jpg`}
+        width={500}
+        height={500}
+        alt={result[2]}
+      />
+    </div>
+  )}
+</div>
             </div>
           </div>
         </Tabs>
