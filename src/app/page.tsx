@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Page() {
   return (
     <>
-      <main className={`${inter.className} p-7`}>
+      <main className={`${inter.className} p-7 w-full max-w-lg mx-auto relative`}>
         <div className="w-full relative pt-[100%]">
           <Image
             src={hero}
