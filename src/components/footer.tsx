@@ -6,24 +6,27 @@ export default function Component() {
     <div className="dark bg-gray-900 text-white py-8">
       <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between">
         <div className="flex items-center space-x-4">
-          <Link
-            className="text-white hover:text-gray-300"
-            href="https://github.com/ashutosh7i/farmiq"
-          >
-            <GithubIcon className="h-6 w-6" />
-            <span className="sr-only">GitHub</span>
+          <Link href="https://github.com/ashutosh7i/farmiq" legacyBehavior>
+            <a className="text-white hover:text-gray-300">
+              <GithubIcon className="h-6 w-6" />
+              <span className="sr-only">GitHub</span>
+            </a>
           </Link>
-          <Link
-            className="text-white hover:text-gray-300"
-            href="https://twitter.com/ashutosh7i"
-          >
-            <TwitterIcon className="h-6 w-6" />
-            <span className="sr-only">Twitter</span>
+          <Link href="https://twitter.com/ashutosh7i" legacyBehavior>
+            <a className="text-white hover:text-gray-300">
+              <TwitterIcon className="h-6 w-6" />
+              <span className="sr-only">Twitter</span>
+            </a>
           </Link>
+          {/* New Links */}
+          <Link href="/about">About</Link>
+          <Link href="/contactus">Contact Us</Link>
+          <Link href="/termsandconditions">Terms & Conditions</Link>
+          <Link href="/refundandcancellation">Refund & Cancellation</Link>
         </div>
         <p className="mt-4 md:mt-0 text-sm text-gray-300">
           Made with 💖 by{" "}
-          <a href="https://linkedin.com/in/ashutosh7i">Ashutosh7i</a>👨🏻‍💻.
+          <a href="https://linkedin.com/in/ashutosh7i" className="hover:text-gray-400">Ashutosh7i</a>👨🏻‍💻.
         </p>
       </div>
     </div>

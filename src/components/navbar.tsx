@@ -38,7 +38,7 @@ export default function Component() {
 
             <Link
               className="flex w-full items-center py-2 text-lg font-semibold"
-              href="https://linkedin.com/in/ashutosh7i"
+             href="/contactus"
             >
               Contact
             </Link>
@@ -65,7 +65,7 @@ export default function Component() {
 
         <Link
           className="flex w-full items-center py-2 text-lg font-semibold"
-          href="https://linkedin.com/in/ashutosh7i"
+          href="/contactus"
         >
           Contact
         </Link>
