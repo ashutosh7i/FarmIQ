@@ -1,5 +1,7 @@
 # FarmIQ
 
+![FarmIQ Logo](https://repository-images.githubusercontent.com/792927403/0599528d-fbe9-472a-acdf-b6d759f31202)
+
 Welcome to FarmIQ, an innovative app designed to maximize agricultural yield. By simply entering parameters about your land, our intelligent system recommends the most suitable crops to plant. This repository provides information about the project's goals, features, technologies used, installation instructions, and usage guidelines.
 
 ## About

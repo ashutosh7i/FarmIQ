@@ -1,83 +1,24 @@
-from flask import Flask, request, jsonify
-import numpy as np
-import joblib
-from os.path import join
-
-app = Flask(__name__)
-
-# Load the models
-loaded_model = joblib.load(join("data", "general_model.h5"))
-scaler = joblib.load(join("data", "general_scaler.h5"))
-
-# Load additional models
-with open(join("data", "advance.pkl"), "rb") as f:
-    XB_model = joblib.load(f)
-with open(join("data", "advance_label_encoder.pkl"), "rb") as f:
-    label_encoder = joblib.load(f)
-
-@app.route("/api/predict", methods=["POST"])
-def predict_crops():
-    data = request.get_json()
-    features = np.array(data.get("reqdata", [])).reshape(1, -1)
-    features_scaled = scaler.transform(features)
-    probabilities = loaded_model.predict_proba(features_scaled)[0]
-    top_indices = probabilities.argsort()[-3:][::-1]
-    top_crops = loaded_model.classes_[top_indices]
-    return jsonify({"top_crops": top_crops.tolist()})
-
-@app.route("/api/advance", methods=["POST"])
-def predict():
-    data = request.get_json(force=True)
-    new_data = np.array(data["new_data"], dtype=object)
-    prediction = XB_model.predict_proba([new_data])[0]
-    top_three_indices = prediction.argsort()[-3:][::-1]
-    top_three_crops = label_encoder.inverse_transform(top_three_indices)
-    return jsonify({"top_crops": top_three_crops.tolist()})
-
-@app.route("/api/")
-def index():
-    return "Hello from Flask!"
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80)
-
+# Original code-
 
 # from flask import Flask, request, jsonify
 # import numpy as np
 # import joblib
 # import pickle
-# from os.path import join
-# from flask_limiter import Limiter
-# from flask_limiter.util import get_remote_address
 
 # app = Flask(__name__)
 
-# # Initialize Flask-Limiter
-# limiter = Limiter(
-#     get_remote_address,
-#     app=app,
-#     default_limits=["400 per day", "60 per hour"]
-# )
-
-# # Custom error handler for rate limiting
-# @app.errorhandler(429)
-# def ratelimit_handler(e):
-#     return jsonify(error="ratelimit exceeded", message=str(e.description)), 429
-
 # # Load the general model
-# loaded_model = joblib.load(join("data", "general_model.h5"), "r")
-# scaler = joblib.load(join("data", "general_scaler.h5"), "r")
+# loaded_model = joblib.load('general_model.h5')
+# scaler = joblib.load('general_scaler.h5')
 
 # # Load the advance model
-# with open(join("data", "advance.pkl"), "rb") as model:
+# with open('advance.pkl', 'rb') as model:
 #     XB_model = pickle.load(model)
 # # Load the advance label encoder
-# with open(join("data", "advance_label_encoder.pkl"), "rb") as model:
+# with open('advance_label_encoder.pkl', 'rb') as model:
 #     label_encoder = pickle.load(model)
 
-
-# @app.route("/api/predict", methods=["POST"])
-# @limiter.limit("10 per minute")  # Apply rate limiting to this endpoint
+# @app.route('/predict', methods=['POST'])
 # def predict_crops():
 #     print("Received a request")
 #     # Extract data from the request
@@ -85,7 +26,7 @@ if __name__ == "__main__":
 #     print("Request data:", data)
 
 #     # Extract features from the request data
-#     req_data = data.get("reqdata", [])  # Assuming 'reqdata' key in request JSON
+#     req_data = data.get('reqdata', [])  # Assuming 'reqdata' key in request JSON
 #     features = np.array(req_data).reshape(1, -1)
 
 #     # Scale the data
@@ -106,14 +47,13 @@ if __name__ == "__main__":
 #     return jsonify({"top_crops": list(top_crops)})
 
 
-# @app.route("/api/advance", methods=["POST"])
-# @limiter.limit("10 per minute")  # Apply rate limiting to this endpoint
+# @app.route('/advance', methods=['POST'])
 # def predict():
 #     # Get the data from the POST request
 #     data = request.get_json(force=True)
 
 #     # Convert the data to a numpy array
-#     new_data = np.array(data["new_data"], dtype=object)
+#     new_data = np.array(data['new_data'],dtype=object)
 
 #     # Make prediction using model loaded from disk as per the data
 #     prediction = XB_model.predict_proba([new_data])[0]
@@ -125,20 +65,49 @@ if __name__ == "__main__":
 #     top_three_crops = label_encoder.inverse_transform(top_three_indices)
 
 #     # Return the predictions
-#     return jsonify({"top_crops": top_three_crops.tolist()})
+#     return jsonify({'top_crops': top_three_crops.tolist()})
 
-
-# @app.route("/api/")
+# @app.route('/')
 # def index():
-#     return "Hello from Flask!"
+#     return 'Hello from Flask!'
+
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=80)
 
 
-# if __name__ == "__main__":
-#     app.run(host="0.0.0.0", port=80)
+# Old Trained model is not working for nextjs Edge runtime, so for now i have created this sample code that returns sample crops
+# all code is here, in my freetime i will try to make it work with new model
 
-# Flask==3.0.0
-# joblib==1.4.0
-# numpy==1.26.4
-# scikit-learn==1.2.2
-# xgboost==2.0.3
-# Flask-Limiter
+
+from fastapi import FastAPI
+import random
+
+app = FastAPI()
+
+@app.get("/api/python")
+def hello_world():
+    return {"message": "Hello World"}
+
+crop_list = ['apple', 'banana', 'blackgram', 'chickpea', 'coconut', 'coffee', 'cotton', 'grapes', 'jute', 'kidneybeans', 'lentil', 'maize', 'mango', 'mothbeans', 'mungbean', 'muskmelon', 'orange', 'papaya', 'pomegranate', 'rice', 'watermelon']
+
+
+# route for general prediction, takes 4 data and returns top 3 crops from crop list as list and return random 3 crops
+@app.post("/api/predict")
+def predict_crops(data: dict):
+    print("Received a request")
+    # Extract data from the request
+    print("Request data:", data)
+    
+    # return random 3 crops
+    return {"top_crops": random.sample(crop_list, 3)}
+
+# route for advance prediction, takes 7 data and returns top 3 crops from crop list as list and return random 3 crops
+@app.post("/api/advance")
+def predict(data: dict):
+    # Get the data from the POST request
+    print("Request data:", data)
+
+    # return random 3 crops
+    return {"top_crops": random.sample(crop_list, 3)}
+    
+    

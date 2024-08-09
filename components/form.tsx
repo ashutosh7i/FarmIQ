@@ -12,15 +12,48 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Separator } from "@/components/ui/separator";
 
-import Image from 'next/image'
+import Image from "next/image";
+
+// currently using demo model, showing that on first usage
+function InitialAlert({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) {
+  return (
+    <AlertDialog open={isOpen} onOpenChange={onClose}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Warning: Demo Model ⚠️</AlertDialogTitle>
+          <AlertDialogDescription>
+            This is a demo model and Results may not be accurate. <br />
+            Use this for educational purposes only.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogAction onClick={onClose}>Got it</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
 
 export default function TabsDemo() {
   const { toast } = useToast();
@@ -35,11 +68,13 @@ export default function TabsDemo() {
   const [humidity, setHumidity] = useState("");
   const [ph, setPh] = useState("");
   const [rainfall, setRainfall] = useState("");
+  const [showAlert, setShowAlert] = useState(true);
 
   const lockTab = () => setLock(true);
   const unlockTab = () => setLock(false);
 
-  const isValidNumber = (value: string): boolean => !isNaN(Number(value)) && value.trim() !== "";
+  const isValidNumber = (value: string): boolean =>
+    !isNaN(Number(value)) && value.trim() !== "";
 
   const validateFields = (fields: string[]): boolean => {
     for (const field of fields) {
@@ -49,7 +84,7 @@ export default function TabsDemo() {
     }
     return true;
   };
-  
+
   const predictGeneral = async () => {
     const fields = [temperature, humidity, ph, rainfall];
     if (!validateFields(fields)) {
@@ -68,12 +103,9 @@ export default function TabsDemo() {
       description: "Please wait while we predict the best crops for you",
     });
     try {
-      const response = await axios.post(
-        "/api/predict",
-        {
-          reqdata,
-        }
-      );
+      const response = await axios.post("/api/predict", {
+        reqdata,
+      });
       const data = response.data;
       toast({
         title: "Response Ready ✅✨",
@@ -130,12 +162,9 @@ export default function TabsDemo() {
       description: "Please wait while we predict the best crops for you",
     });
     try {
-      const response = await axios.post(
-        "/api/advance",
-        {
-          new_data,
-        }
-      );
+      const response = await axios.post("/api/advance", {
+        new_data,
+      });
       const data = response.data;
       toast({
         title: "Response Ready ✅✨",
@@ -159,6 +188,7 @@ export default function TabsDemo() {
 
   return (
     <>
+      <InitialAlert isOpen={showAlert} onClose={() => setShowAlert(false)} />
       <div className="p-5 mx-auto">
         <Tabs defaultValue="general" className="sm:w-[400px] mx-auto">
           <h1 className="text-2xl font-bold text-left pb-4 ">
@@ -321,41 +351,41 @@ export default function TabsDemo() {
               <p className="text-sm text-muted-foreground">
                 Plant these 3 crops for maximum yield
               </p>
-<div className="grid grid-cols-3 gap-4 items-center text-sm">
-  {result.length >= 1 && (
-    <div>
-      {result[0]}
-      <Image
-        src={`/crops/${result[0]}.jpg`}
-        width={500}
-        height={500}
-        alt={result[0]}
-      />
-    </div>
-  )}
-  {result.length >= 2 && (
-    <div>
-      {result[1]}
-      <Image
-        src={`/crops/${result[1]}.jpg`}
-        width={500}
-        height={500}
-        alt={result[1]}
-      />
-    </div>
-  )}
-  {result.length >= 3 && (
-    <div>
-      {result[2]}
-      <Image
-        src={`/crops/${result[2]}.jpg`}
-        width={500}
-        height={500}
-        alt={result[2]}
-      />
-    </div>
-  )}
-</div>
+              <div className="grid grid-cols-3 gap-4 items-center text-sm">
+                {result.length >= 1 && (
+                  <div>
+                    {result[0]}
+                    <Image
+                      src={`/crops/${result[0]}.jpg`}
+                      width={500}
+                      height={500}
+                      alt={result[0]}
+                    />
+                  </div>
+                )}
+                {result.length >= 2 && (
+                  <div>
+                    {result[1]}
+                    <Image
+                      src={`/crops/${result[1]}.jpg`}
+                      width={500}
+                      height={500}
+                      alt={result[1]}
+                    />
+                  </div>
+                )}
+                {result.length >= 3 && (
+                  <div>
+                    {result[2]}
+                    <Image
+                      src={`/crops/${result[2]}.jpg`}
+                      width={500}
+                      height={500}
+                      alt={result[2]}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </Tabs>
