@@ -20,13 +20,19 @@ export default function Component() {
           </Link>
           {/* New Links */}
           <Link href="/about">About</Link>
-          <Link href="/contactus">Contact Us</Link>
-          <Link href="/termsandconditions">Terms & Conditions</Link>
-          <Link href="/refundandcancellation">Refund & Cancellation</Link>
+          <Link href="https://github.com/ashutosh7">Contact Us</Link>
+          {/* <Link href="/termsandconditions">Terms & Conditions</Link>
+          <Link href="/refundandcancellation">Refund & Cancellation</Link> */}
         </div>
         <p className="mt-4 md:mt-0 text-sm text-gray-300">
           Made with 💖 by{" "}
-          <a href="https://linkedin.com/in/ashutosh7i" className="hover:text-gray-400">Ashutosh7i</a>👨🏻‍💻.
+          <a
+            href="https://linkedin.com/in/ashutosh7i"
+            className="hover:text-gray-400"
+          >
+            Ashutosh7i
+          </a>
+          👨🏻‍💻.
         </p>
       </div>
     </div>

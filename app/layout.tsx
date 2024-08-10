@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "FarmIQ🌾",
-  description: "FarmIQ🌾 is an innovative app designed to maximize your agricultural yield by Aashutosh Soni",
+  description: "FarmIQ🌾 is an innovative app designed to maximize your agricultural yield by Aashutosh Soni Ashutosh7i",
 };
 
 export default function RootLayout({
